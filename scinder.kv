@@ -1,0 +1,69 @@
+Screen:
+	MDBoxLayout:
+		orientation: 'vertical'
+		size: root.width, root.height
+		padding: 30
+
+		rows: 2
+
+		MDLabel:
+			id: Q
+			text: 'Question'
+
+		MDGridLayout:
+			cols: 2
+			rows: 2
+
+			spacing: 50
+
+			MDRoundFlatButton:
+				id: 0
+				size_hint: (.2, .2)
+				font_size: 12
+				text: 'Option A'
+				on_press: app.pressed(0)
+
+			MDRoundFlatButton:
+				id: 1
+				size_hint: (.2, .2)
+				font_size: 12
+				text: 'Option B'
+				on_press: app.pressed(1)
+
+			MDRoundFlatButton:
+				id: 2
+				size_hint: (.2, .2)
+				font_size: 12
+				text: 'Option C'
+				on_press: app.pressed(2)
+
+			MDRoundFlatButton:
+				id: 3
+				size_hint: (.2, .2)
+				font_size: 12
+				text: 'Option D'
+				on_press: app.pressed(3)
+
+		MDFloatLayout:
+			cols: 2
+			padding: 5
+			spacing: 5
+
+			MDRoundFlatButton:
+				size_hint: (.2, .2)
+				font_size: 12
+				pos_hint: {'x': .2, 'y': .2}
+				text: 'Next'
+				on_press: app.state_check()
+
+			MDRoundFlatButton:
+				size_hint: (.2, .2)
+				font_size: 12
+				pos_hint: {'x': .6, 'y': .2}
+				text: 'Exit'
+				on_press: app.close()
+
+
+
+<MDRoundFlatButton>
+	bold: True
