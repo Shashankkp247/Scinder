@@ -1,5 +1,9 @@
 from kivy.lang import Builder
-from kivymd.app import MDApp
+from kivy.app import App
+from kivy.core.audio import SoundLoader
+
+import os, sys
+from kivy.resources import resource_add_path, resource_find
 
 wrong = (1, 0, 0, 1) #Red
 choosen = (1, 165/255, 0, 1) #Orange
@@ -12,16 +16,16 @@ oname = ['a', 'b', 'c', 'd']
 
 # Defining questions:
 q = [
-	'The endoplasmic reticulum with Ribosomes are called...',#Rough Endoplasmic reticulum
-	'The cell was discovered by...',#Robert Hooke
-	'Organelle which produces ATP is called',#Mitochondria
-	'The Plastid resposible for color in plants is...',#Chromoplast
+	'The endoplasmic reticulum with\nRibosomes are called...',#Rough Endoplasmic reticulum
+	'Cell was discovered by...',#Robert Hooke
+	'Organelle which \nproduces ATP is called',#Mitochondria
+	'The Plastid resposible for\ngiving color to flowers & fruits is...',#Chromoplast
 	'Blood is a...', # Colloid
-	'Organelle which stores, modifies and packs products from ER is called...',#Golgi Appareteus
+	'Cell Organelle which stores, \nmodifies and packs \nproducts from ER is called...',#Golgi Appareteus
 	'Who coined the term Protoplasm',#Purkinje
 	'Food factory of the cell',#Chloroplast
 	'Green Pigment in plants',#Chlorophyll
-	'Which of the follwoing are one of the Equations of motion?'# v = u + at
+	'Which of the follwoing \nare one of the\nEquations of motion?'# v = u + at
 ]
 
 ans = {
@@ -38,8 +42,8 @@ ans = {
 }
 
 opts = {
-	'0':['Spirogyra', 'Tough Endoplasmic Recticulum', 'Yeast', 'Rough Endoplasmic Reticulum'],
-	'1':['Robert Hooke', 'Ludwig Van Beethoven', 'Guido Van Rossum', 'Robet Downey Jr.'],
+	'0':['Spirogyra', 'Tough Endoplasmic \nRecticulum', 'Yeast', 'Rough Endoplasmic\n Reticulum'],
+	'1':['Robert Hooke', 'Ludwig\nVan Beethoven', 'Guido Van Rossum', 'Robet Downey Jr.'],
 	'2':['Nucleus', 'Mitochondria', 'Chlorophyll', 'Chloroplast'],
 	'3':['Chromeplast', 'Corrosion', 'Chromoplast', 'Leucoplast'],
 	'4':['Colloid', 'Solution', 'Element', 'Compound'],
@@ -50,9 +54,14 @@ opts = {
 	'9':['e = mc*c', 'a*a + b*b = c*c', 'a = (v - u)/t', 'v = u + at']
 }
 
-class Scinder(MDApp):
+class Scinder(App):
 	def build(self):
-		self.theme_cls.theme_style = 'Dark'
+		music = SoundLoader.load('weeknd.wav')
+		if music:
+			music.play()
+			music.loop = True
+
+
 		self.start()
 
 	def start(self):
@@ -69,13 +78,15 @@ class Scinder(MDApp):
 			self.root.ids['Q'].text = 'AN ERROR OCURRED: Start()'
 
 	def master(self):
+		global qnum
 
 		try:
+			qnum += 1
 			self.root.ids['Q'].text = q[qnum]
 
 			for i in range(4):
 				self.root.ids[str(i)].text = opts[str(qnum)][i]
-				self.root.ids[str(i)].text_color = (0, 0, 1, 1)
+				self.root.ids[str(i)].background_color = (135/255, 107/255, 105/255, 1)
 		except:
 			self.root.ids['Q'].text = 'AN ERROR OCURRED: Master()'
 
@@ -84,8 +95,10 @@ class Scinder(MDApp):
 		#change the options blank
 		for i in range(4):
 			self.root.ids[str(i)].text = ''
-		
+		self.root.ids.nex.text = ''
+		self.root.ids[str(i)].background_color = (135/255, 107/255, 105/255, 1)
 		self.root.ids.Q.text = f'Score: {tot}\nAnswered wrong: {10 - tot}'
+		self.root.ids.ex.background_color = (1, 80/255, 0, 1)
 
 
 
@@ -93,26 +106,32 @@ class Scinder(MDApp):
 		global qnum
 		global tot
 		global countdrac
+		global correct
+		global wrong
 
 		if int(ans[qnum]) == int(option):
 			tot += 1
-			self.root.ids[str(option)].text_color = correct
+			self.root.ids[str(option)].background_color = (24/255, 181/255, 50/255, 1)
 		else:
-			self.root.ids[str(option)].text_color = wrong
-
-		qnum += 1
+			self.root.ids[str(option)].background_color = (1, 0, 0, 1)
 
 	def state_check(self):
 		global qnum
 		print(qnum)
-		if qnum != 10:
+		if qnum != 9:
 			self.master()
 		else:
 			self.success()
 
 	def close(self):
-		MDApp.get_running_app().stop() 
-		
+		App.get_running_app().stop() 
+	
+	def slid(self, *args):
+		#print(args[1])
+		self.root.ids.text = str(args[1])
+		self.root.ids.font_size = str(int(args[1]))
 
-
-Scinder().run()
+if __name__ == '__main__':
+	if hasattr(sys, '_MEIPASS'):
+		resource_add_path(os.path.join(sys._MEIPASS))
+	Scinder().run()
