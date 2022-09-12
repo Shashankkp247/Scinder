@@ -7,3 +7,9 @@ So what it does is that it contains Ten questions related to Science which are 9
 And if the correct option is pressed the text of the option turns green.
 And red if you choose the worng answer.
 The at last shows the score and how many wrong answer u have given...
+
+# Bug for Android
+#### The music doesn't play when app is used from the apk!
+
+# Feture for Linux
+#### Audio plays when the app is started!
